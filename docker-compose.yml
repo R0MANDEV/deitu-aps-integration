@@ -1,0 +1,55 @@
+version: "3"
+services:
+  client:
+    hostname: ${NAME}-client
+    command: /bin/bash /var/run/start.sh
+    container_name: ${NAME}-webphone
+    image: ${NAME}-webphone
+    build:
+      context: .
+      dockerfile: docker/webphone/Dockerfile
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./uac/webphone:/${WEBPHONE_PATH}
+    networks:
+      network:
+        ipv4_address: 10.189.10.10
+  mbaas:
+    hostname: ${NAME}-mbaas
+    container_name: ${NAME}-mbaas
+    image: ${NAME}-mbaas
+    build:
+      context: .
+      dockerfile: docker/mbaas/Dockerfile
+    environment:
+      - APP_ENV=localdev
+      - MBAAS_MODE=${MBAAS_MODE}
+    volumes:
+      - ./mbaas:/${MBAAS_PATH}
+    depends_on:
+      - mongodb
+      - client
+    network_mode: host
+  mongodb:
+    hostname: ${NAME}-mongo
+    container_name: ${NAME}-mongo
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=deitu
+      - MONGO_INITDB_ROOT_PASSWORD=changeme
+      - MONGO_INITDB_DATABASE=deitu
+    volumes:
+      - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js
+    ports:
+      - "27017:27017"
+    networks:
+      network:
+        ipv4_address: 10.189.10.12
+networks:
+  network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.189.10.0/24

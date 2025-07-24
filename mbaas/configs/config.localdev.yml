@@ -1,0 +1,20 @@
+deitu_version: 1.8.0
+http:
+  listen: 0.0.0.0:8080
+  jwt_public: configs/jwt/public.pem
+  jwt_private: configs/jwt/private.pem
+  access_token_expire: 24h
+  refresh_token_expire: 336h
+  refresh_min_renew_delay: 0h
+  refresh_renew_interval: 168h
+aps:
+  url: http://localhost:3023/aps/api
+  cloud_id: IVOZ
+  refresh_token: 5f684048197b961f69804beda249f9b77779e86239c040eaa95d103700c5b2c15139afd12cce3c590acb5d3beb038a5a0ef9e95589446af83ebf82404a2231e7
+mongo:
+  uri: mongodb://localhost:27017/
+  username: deitu
+  password: changeme
+  database: deitu
+call_history:
+  items_limit: 10
