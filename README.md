@@ -104,6 +104,7 @@ APS Proxy (localhost:3023)
 APS Backend (10.189.3.23:443) ✅
 ```
 
+## Tener en cuenta que se tiene que agregar un roken-refresh que viene cuando haces login con un user de aps y copiarlo en config-local
 ## 🐛 Troubleshooting
 
 ### ❌ Error: "connect EHOSTUNREACH"
